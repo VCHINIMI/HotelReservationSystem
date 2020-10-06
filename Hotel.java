@@ -18,6 +18,15 @@ public class Hotel {
 		this.regularWeekendRate = regularWeekendRate; 
 		this.hotelRating = hotelRating;
 	}
+	
+	public int getRegularWeekendRate() {
+		return regularWeekendRate;
+	}
+
+	public int getHotelRating() {
+		return hotelRating;
+	}
+
 	public int getTotalCostIncurred() {
 		return totalCostIncurred;
 	}
@@ -69,6 +78,6 @@ public class Hotel {
 	}
 	@Override
 	public String toString() {
-		return hotelName;
+		return (hotelName+", Total Cost: "+totalCostIncurred+", Rating: "+hotelRating+" ");
 	}
 }

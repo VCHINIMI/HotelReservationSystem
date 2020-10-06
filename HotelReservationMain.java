@@ -16,6 +16,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.sun.jdi.IntegerValue;
 
@@ -34,8 +35,14 @@ public class HotelReservationMain {
 			hotel.costOfStay("11sep2020","12sep2020");
 		}
 		HashMap<String, Integer> costIncurredMap = (HashMap<String, Integer>) hotelList.stream().sorted(Comparator.comparing(Hotel :: getTotalCostIncurred)).collect(Collectors.toMap(Hotel :: getHotelName, Hotel :: getTotalCostIncurred ));
-		String cheapestHotelName = costIncurredMap.entrySet().stream().findFirst().get().getKey();
-		Integer cheapestRate = costIncurredMap.entrySet().stream().findFirst().get().getValue();
-		costIncurredMap.entrySet().stream().filter(map -> map.getValue().intValue()==cheapestRate).forEach(System.out::println);
+		List<Hotel> sortedList = hotelList.stream().sorted(Comparator.comparingInt(Hotel::getTotalCostIncurred)).collect(Collectors.toList());
+		int cheapestRate = sortedList.stream().findFirst().get().getTotalCostIncurred();
+		List<Hotel> requiredHotelList = sortedList.stream().filter(list -> list.totalCostIncurred==cheapestRate).collect(Collectors.toList());
+		if(requiredHotelList.size()==1)
+			System.out.println(requiredHotelList);
+		else {
+			Optional<Hotel> optional = requiredHotelList.stream().sorted(Comparator.comparingInt(Hotel::getHotelRating).reversed()).findFirst();
+			System.out.println(optional.get());
+		}
 	}
 }
