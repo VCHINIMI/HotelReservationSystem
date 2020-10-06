@@ -22,7 +22,6 @@ import com.sun.jdi.IntegerValue;
 public class HotelReservationMain {
 	List<Hotel> hotelList = new ArrayList<Hotel>();
 	public void chepestBestRatedHotelInRange() {
-		HashMap<String, Integer> costIncurredMap = (HashMap<String, Integer>) hotelList.stream().sorted(Comparator.comparing(Hotel :: getTotalCostIncurred)).collect(Collectors.toMap(Hotel :: getHotelName, Hotel :: getTotalCostIncurred ));
 		List<Hotel> sortedList = hotelList.stream().sorted(Comparator.comparingInt(Hotel::getTotalCostIncurred)).collect(Collectors.toList());
 		int cheapestRate = sortedList.stream().findFirst().get().getTotalCostIncurred();
 		List<Hotel> requiredHotelList = sortedList.stream().filter(list -> list.totalCostIncurred==cheapestRate).collect(Collectors.toList());
@@ -52,7 +51,7 @@ public class HotelReservationMain {
 		hotelReservationMain.hotelList.add(bridgeWoodHotel);
 		hotelReservationMain.hotelList.add(lakeWoodHotel);
 		for(Hotel hotel : hotelReservationMain.hotelList) {
-			hotel.costOfStay("11sep2020","12sep2020");
+			hotel.costOfStay("10oct2020","11oct2020");
 		}
 		hotelReservationMain.chepestBestRatedHotelInRange();		
 	}

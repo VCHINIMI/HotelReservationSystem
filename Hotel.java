@@ -2,8 +2,24 @@ package myPackage.Vinay.HotelReservationSystem;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
+import com.sun.crypto.provider.PBES2Core.HmacSHA1AndAES_128;
 
 public class Hotel {
 	public String hotelName;
@@ -47,13 +63,7 @@ public class Hotel {
 		this.regularWeekdayRate = regularWeekdayRate;
 	}
 	public void costOfStay(String entry, String exit) {
-		int totalCost =0;
-		Date entryDate = convertGivenDateToRequiredDate(entry);
-		Date exitDate = convertGivenDateToRequiredDate(exit);
-		Calendar entryDateCalendar = Calendar.getInstance();
-	    entryDateCalendar.setTime(entryDate);
-	    Calendar exitDateCalendar = Calendar.getInstance();
-	    exitDateCalendar.setTime(exitDate);
+		int totalCost =0;	    
 	    int weekdayRate =0; int weekendRate =0; 
 	    if(loyaltyFlag==false) {
 	    	weekdayRate=regularWeekdayRate;
@@ -63,7 +73,26 @@ public class Hotel {
 	    	weekdayRate=loyaltyWeekdayRate;
 	    	weekendRate=loyaltyWeekendRate;
 	    }
-	    for (Date date = entryDateCalendar.getTime(); entryDateCalendar.before(exitDateCalendar); entryDateCalendar.add(Calendar.DATE, 1), date = entryDateCalendar.getTime()) {
+	    LocalDate entryDate = convertDateToRequiredDate(entry);
+		LocalDate exitDate = convertDateToRequiredDate(exit);
+		//System.out.println(entryDate);
+		//System.out.println(exitDate);
+		//System.out.println("Hi");
+	    for(LocalDate date = entryDate; date.isBefore(exitDate);date=date.plusDays(1)) {
+	    	int dayNumber = date.getDayOfWeek().getValue(); 
+	    	if(dayNumber==0||dayNumber==6)
+	        	totalCost = totalCost + weekendRate; 
+	        else
+	        	totalCost = totalCost + weekdayRate;
+	    }
+	    if(exitDate.getDayOfWeek().getValue()==0||exitDate.getDayOfWeek().getValue()==6)
+	    	totalCost=totalCost+weekendRate;
+	    else
+	    	totalCost = totalCost + weekdayRate;
+	    
+	    this.totalCostIncurred = totalCost;
+	    
+/*	    for (Date date = entryDateCalendar.getTime(); entryDateCalendar.before(exitDateCalendar); entryDateCalendar.add(Calendar.DATE, 1), date = entryDateCalendar.getTime()) {
 	    	int dayNumber = date.getDay();
 	        if(dayNumber==0||dayNumber==6)
 	        	totalCost = totalCost + weekendRate;
@@ -77,18 +106,18 @@ public class Hotel {
 	    
 	    
 	    this.totalCostIncurred = totalCost;
+*/	    
 	}		
-	
-	public Date convertGivenDateToRequiredDate(String date) {
-		DateFormat df4 = new SimpleDateFormat("ddMMMyyyy");
-	    Date date1=null;		
-	    try {
-			date1 = df4.parse(date);
-			
-		} catch (Exception e) {
-			System.out.println("Invalid Date");
-		} 
-	    return date1;
+	public LocalDate convertDateToRequiredDate(String dateString) {
+		
+//		String date = "22sep2020";
+        LocalDate localDate = null;
+        DateTimeFormatter formatter = new DateTimeFormatterBuilder().parseCaseInsensitive().appendPattern("ddMMMyyyy").toFormatter(Locale.ENGLISH);
+        try {     
+        	localDate = LocalDate.parse(dateString, formatter);
+        }
+        catch(Exception e) {System.out.println(e.getMessage());}
+        return localDate; 
 	}
 	@Override
 	public String toString() {
