@@ -20,20 +20,10 @@ import java.util.stream.Stream;
 
 import com.sun.jdi.IntegerValue;
 
+
 public class HotelReservationMain {
-	
-	public static void main(String[] args) {
-		List<Hotel> hotelList = new ArrayList<Hotel>();
-		System.out.println("Welcome to Hotel Reservation System");
-		Hotel lakeWoodHotel = new Hotel("LakeWood",110,90,3);
-		Hotel bridgeWoodHotel = new Hotel("Bridgewood", 150,50,4);
-		Hotel ridgeWoodHotel = new Hotel("Ridgewood", 220,150,5);
-		hotelList.add(ridgeWoodHotel);
-		hotelList.add(bridgeWoodHotel);
-		hotelList.add(lakeWoodHotel);
-		for(Hotel hotel : hotelList) {
-			hotel.costOfStay("11sep2020","12sep2020");
-		}
+	List<Hotel> hotelList = new ArrayList<Hotel>();
+	public void chepestHotelInRange() {
 		HashMap<String, Integer> costIncurredMap = (HashMap<String, Integer>) hotelList.stream().sorted(Comparator.comparing(Hotel :: getTotalCostIncurred)).collect(Collectors.toMap(Hotel :: getHotelName, Hotel :: getTotalCostIncurred ));
 		List<Hotel> sortedList = hotelList.stream().sorted(Comparator.comparingInt(Hotel::getTotalCostIncurred)).collect(Collectors.toList());
 		int cheapestRate = sortedList.stream().findFirst().get().getTotalCostIncurred();
@@ -41,8 +31,31 @@ public class HotelReservationMain {
 		if(requiredHotelList.size()==1)
 			System.out.println(requiredHotelList);
 		else {
-			Optional<Hotel> optional = requiredHotelList.stream().sorted(Comparator.comparingInt(Hotel::getHotelRating).reversed()).findFirst();
-			System.out.println(optional.get());
+			Optional<Hotel> bestRatingHotelWhenTie = requiredHotelList.stream().sorted(Comparator.comparingInt(Hotel::getHotelRating).reversed()).findFirst();
+			System.out.println(bestRatingHotelWhenTie.get());
 		}
+	}
+	public void bestRatedHotelInRange() {
+		List<Hotel> sortedList = hotelList.stream().sorted(Comparator.comparingInt(Hotel::getHotelRating).reversed()).collect(Collectors.toList());
+		Optional<Hotel> bestRatedHotelInRange = sortedList.stream().findFirst();
+		System.out.println(bestRatedHotelInRange.get());
+	}
+	
+	public static void main(String[] args) {
+		
+		
+		HotelReservationMain hotelReservationMain = new HotelReservationMain();
+		System.out.println("Welcome to Hotel Reservation System");
+		Hotel lakeWoodHotel = new Hotel("LakeWood",110,90,3);
+		Hotel bridgeWoodHotel = new Hotel("Bridgewood", 150,50,4);
+		Hotel ridgeWoodHotel = new Hotel("Ridgewood", 220,150,5);
+		hotelReservationMain.hotelList.add(ridgeWoodHotel);
+		hotelReservationMain.hotelList.add(bridgeWoodHotel);
+		hotelReservationMain.hotelList.add(lakeWoodHotel);
+		for(Hotel hotel : hotelReservationMain.hotelList) {
+			hotel.costOfStay("11sep2020","12sep2020");
+		}
+		hotelReservationMain.chepestHotelInRange();
+		hotelReservationMain.bestRatedHotelInRange();
 	}
 }
