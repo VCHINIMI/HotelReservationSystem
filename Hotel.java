@@ -8,11 +8,13 @@ import java.util.Date;
 public class Hotel {
 	public String hotelName;
 	public int regularWeekdayRate;
+	public int regularWeekendRate;
 	public int totalCostIncurred;
-	public Hotel(String hotelName, int regularWeekdayRate) {
+	public Hotel(String hotelName, int regularWeekdayRate, int regularWeekendRate) {
 		super();
 		this.hotelName = hotelName;
 		this.regularWeekdayRate = regularWeekdayRate;
+		this.regularWeekendRate = regularWeekendRate; 
 	}
 	public int getTotalCostIncurred() {
 		return totalCostIncurred;
@@ -39,7 +41,10 @@ public class Hotel {
 	    exitDateCalendar.setTime(exitDate);
 	    for (Date date = entryDateCalendar.getTime(); entryDateCalendar.before(exitDateCalendar); entryDateCalendar.add(Calendar.DATE, 1), date = entryDateCalendar.getTime()) {
 	        int dayNumber = date.getDay();
-	        totalCost = totalCost + regularWeekdayRate;
+	        if(dayNumber==0||dayNumber==6)
+	        	totalCost = totalCost + regularWeekendRate;
+	        else
+	        	totalCost = totalCost + regularWeekdayRate;
 	    }
 	    this.totalCostIncurred = totalCost;
 	}
