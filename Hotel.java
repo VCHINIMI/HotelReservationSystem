@@ -9,16 +9,20 @@ public class Hotel {
 	public String hotelName;
 	public int regularWeekdayRate;
 	public int regularWeekendRate;
+	public int loyaltyWeekdayRate;
+	public int loyaltyWeekendRate;
 	public int totalCostIncurred;
 	public int hotelRating;
-	public Hotel(String hotelName, int regularWeekdayRate, int regularWeekendRate, int hotelRating) {
+	public boolean loyaltyFlag;
+	public Hotel(String hotelName, int regularWeekdayRate, int regularWeekendRate, int hotelRating, int loyaltyWeekdayRate, int loyaltyWeekendRate) {
 		super();
 		this.hotelName = hotelName;
 		this.regularWeekdayRate = regularWeekdayRate;
 		this.regularWeekendRate = regularWeekendRate; 
 		this.hotelRating = hotelRating;
-	}
-	
+		this.loyaltyWeekdayRate = loyaltyWeekdayRate;
+		this.loyaltyWeekendRate = loyaltyWeekendRate;
+	}	
 	public int getRegularWeekendRate() {
 		return regularWeekendRate;
 	}
@@ -50,20 +54,30 @@ public class Hotel {
 	    entryDateCalendar.setTime(entryDate);
 	    Calendar exitDateCalendar = Calendar.getInstance();
 	    exitDateCalendar.setTime(exitDate);
+	    int weekdayRate =0; int weekendRate =0; 
+	    if(loyaltyFlag==false) {
+	    	weekdayRate=regularWeekdayRate;
+	    	weekendRate=regularWeekendRate;
+	    }
+	    else {
+	    	weekdayRate=loyaltyWeekdayRate;
+	    	weekendRate=loyaltyWeekendRate;
+	    }
 	    for (Date date = entryDateCalendar.getTime(); entryDateCalendar.before(exitDateCalendar); entryDateCalendar.add(Calendar.DATE, 1), date = entryDateCalendar.getTime()) {
-	        int dayNumber = date.getDay();
+	    	int dayNumber = date.getDay();
 	        if(dayNumber==0||dayNumber==6)
-	        	totalCost = totalCost + regularWeekendRate;
+	        	totalCost = totalCost + weekendRate;
 	        else
-	        	totalCost = totalCost + regularWeekdayRate;
+	        	totalCost = totalCost + weekdayRate;
 	    }
 	    if(exitDate.getDay()==0||exitDate.getDay()==6)
-	    	totalCost=totalCost+regularWeekendRate;
+	    	totalCost=totalCost+weekendRate;
 	    else
-	    	totalCost = totalCost + regularWeekdayRate;
+	    	totalCost = totalCost + weekdayRate;
+	    
+	    
 	    this.totalCostIncurred = totalCost;
-	}	
-		
+	}		
 	
 	public Date convertGivenDateToRequiredDate(String date) {
 		DateFormat df4 = new SimpleDateFormat("ddMMMyyyy");

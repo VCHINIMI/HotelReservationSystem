@@ -17,13 +17,11 @@ import java.util.function.Predicate;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import com.sun.jdi.IntegerValue;
-
 
 public class HotelReservationMain {
 	List<Hotel> hotelList = new ArrayList<Hotel>();
-	public void chepestHotelInRange() {
+	public void chepestBestRatedHotelInRange() {
 		HashMap<String, Integer> costIncurredMap = (HashMap<String, Integer>) hotelList.stream().sorted(Comparator.comparing(Hotel :: getTotalCostIncurred)).collect(Collectors.toMap(Hotel :: getHotelName, Hotel :: getTotalCostIncurred ));
 		List<Hotel> sortedList = hotelList.stream().sorted(Comparator.comparingInt(Hotel::getTotalCostIncurred)).collect(Collectors.toList());
 		int cheapestRate = sortedList.stream().findFirst().get().getTotalCostIncurred();
@@ -41,21 +39,21 @@ public class HotelReservationMain {
 		System.out.println(bestRatedHotelInRange.get());
 	}
 	
-	public static void main(String[] args) {
-		
-		
+	public static void main(String[] args) {		
 		HotelReservationMain hotelReservationMain = new HotelReservationMain();
 		System.out.println("Welcome to Hotel Reservation System");
-		Hotel lakeWoodHotel = new Hotel("LakeWood",110,90,3);
-		Hotel bridgeWoodHotel = new Hotel("Bridgewood", 150,50,4);
-		Hotel ridgeWoodHotel = new Hotel("Ridgewood", 220,150,5);
+		Hotel lakeWoodHotel = new Hotel("LakeWood",110,90,3,80,80);
+		Hotel bridgeWoodHotel = new Hotel("Bridgewood", 150,50,4,110,50);
+		Hotel ridgeWoodHotel = new Hotel("Ridgewood", 220,150,5,100,40);
+		lakeWoodHotel.loyaltyFlag=true;
+		bridgeWoodHotel.loyaltyFlag=true;
+		ridgeWoodHotel.loyaltyFlag=true;
 		hotelReservationMain.hotelList.add(ridgeWoodHotel);
 		hotelReservationMain.hotelList.add(bridgeWoodHotel);
 		hotelReservationMain.hotelList.add(lakeWoodHotel);
 		for(Hotel hotel : hotelReservationMain.hotelList) {
 			hotel.costOfStay("11sep2020","12sep2020");
 		}
-		hotelReservationMain.chepestHotelInRange();
-		hotelReservationMain.bestRatedHotelInRange();
+		hotelReservationMain.chepestBestRatedHotelInRange();		
 	}
 }
