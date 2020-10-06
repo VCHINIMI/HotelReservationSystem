@@ -44,9 +44,6 @@ public class HotelReservationMain {
 		Hotel lakeWoodHotel = new Hotel("LakeWood",110,90,3,80,80);
 		Hotel bridgeWoodHotel = new Hotel("Bridgewood", 150,50,4,110,50);
 		Hotel ridgeWoodHotel = new Hotel("Ridgewood", 220,150,5,100,40);
-		lakeWoodHotel.loyaltyFlag=true;
-		bridgeWoodHotel.loyaltyFlag=true;
-		ridgeWoodHotel.loyaltyFlag=true;
 		hotelReservationMain.hotelList.add(ridgeWoodHotel);
 		hotelReservationMain.hotelList.add(bridgeWoodHotel);
 		hotelReservationMain.hotelList.add(lakeWoodHotel);

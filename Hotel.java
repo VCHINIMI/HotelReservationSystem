@@ -19,8 +19,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import com.sun.crypto.provider.PBES2Core.HmacSHA1AndAES_128;
-
 public class Hotel {
 	public String hotelName;
 	public int regularWeekdayRate;
@@ -62,6 +60,7 @@ public class Hotel {
 	public void setRegularWeekdayRate(int regularWeekdayRate) {
 		this.regularWeekdayRate = regularWeekdayRate;
 	}
+	
 	public void costOfStay(String entry, String exit) {
 		int totalCost =0;	    
 	    int weekdayRate =0; int weekendRate =0; 
@@ -75,9 +74,6 @@ public class Hotel {
 	    }
 	    LocalDate entryDate = convertDateToRequiredDate(entry);
 		LocalDate exitDate = convertDateToRequiredDate(exit);
-		//System.out.println(entryDate);
-		//System.out.println(exitDate);
-		//System.out.println("Hi");
 	    for(LocalDate date = entryDate; date.isBefore(exitDate);date=date.plusDays(1)) {
 	    	int dayNumber = date.getDayOfWeek().getValue(); 
 	    	if(dayNumber==0||dayNumber==6)
@@ -90,27 +86,10 @@ public class Hotel {
 	    else
 	    	totalCost = totalCost + weekdayRate;
 	    
-	    this.totalCostIncurred = totalCost;
-	    
-/*	    for (Date date = entryDateCalendar.getTime(); entryDateCalendar.before(exitDateCalendar); entryDateCalendar.add(Calendar.DATE, 1), date = entryDateCalendar.getTime()) {
-	    	int dayNumber = date.getDay();
-	        if(dayNumber==0||dayNumber==6)
-	        	totalCost = totalCost + weekendRate;
-	        else
-	        	totalCost = totalCost + weekdayRate;
-	    }
-	    if(exitDate.getDay()==0||exitDate.getDay()==6)
-	    	totalCost=totalCost+weekendRate;
-	    else
-	    	totalCost = totalCost + weekdayRate;
-	    
-	    
-	    this.totalCostIncurred = totalCost;
-*/	    
-	}		
+	    this.totalCostIncurred = totalCost;	    
+	}
+	
 	public LocalDate convertDateToRequiredDate(String dateString) {
-		
-//		String date = "22sep2020";
         LocalDate localDate = null;
         DateTimeFormatter formatter = new DateTimeFormatterBuilder().parseCaseInsensitive().appendPattern("ddMMMyyyy").toFormatter(Locale.ENGLISH);
         try {     
@@ -119,6 +98,7 @@ public class Hotel {
         catch(Exception e) {System.out.println(e.getMessage());}
         return localDate; 
 	}
+	
 	@Override
 	public String toString() {
 		return (hotelName+", Total Cost: "+totalCostIncurred+", Rating: "+hotelRating+" ");
