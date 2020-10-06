@@ -10,11 +10,13 @@ public class Hotel {
 	public int regularWeekdayRate;
 	public int regularWeekendRate;
 	public int totalCostIncurred;
-	public Hotel(String hotelName, int regularWeekdayRate, int regularWeekendRate) {
+	public int hotelRating;
+	public Hotel(String hotelName, int regularWeekdayRate, int regularWeekendRate, int hotelRating) {
 		super();
 		this.hotelName = hotelName;
 		this.regularWeekdayRate = regularWeekdayRate;
 		this.regularWeekendRate = regularWeekendRate; 
+		this.hotelRating = hotelRating;
 	}
 	public int getTotalCostIncurred() {
 		return totalCostIncurred;
