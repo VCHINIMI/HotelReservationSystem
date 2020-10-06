@@ -46,8 +46,12 @@ public class Hotel {
 	        else
 	        	totalCost = totalCost + regularWeekdayRate;
 	    }
+	    if(exitDate.getDay()==0||exitDate.getDay()==6)
+	    	totalCost=totalCost+regularWeekendRate;
+	    else
+	    	totalCost = totalCost + regularWeekdayRate;
 	    this.totalCostIncurred = totalCost;
-	}
+	}	
 		
 	
 	public Date convertGivenDateToRequiredDate(String date) {

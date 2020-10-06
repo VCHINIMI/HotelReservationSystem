@@ -31,7 +31,11 @@ public class HotelReservationMain {
 		hotelList.add(bridgeWoodHotel);
 		hotelList.add(lakeWoodHotel);
 		for(Hotel hotel : hotelList) {
-			hotel.costOfStay("11sep2020","13sep2020");
-		}			
+			hotel.costOfStay("11sep2020","12sep2020");
+		}
+		HashMap<String, Integer> costIncurredMap = (HashMap<String, Integer>) hotelList.stream().sorted(Comparator.comparing(Hotel :: getTotalCostIncurred)).collect(Collectors.toMap(Hotel :: getHotelName, Hotel :: getTotalCostIncurred ));
+		String cheapestHotelName = costIncurredMap.entrySet().stream().findFirst().get().getKey();
+		Integer cheapestRate = costIncurredMap.entrySet().stream().findFirst().get().getValue();
+		costIncurredMap.entrySet().stream().filter(map -> map.getValue().intValue()==cheapestRate).forEach(System.out::println);
 	}
 }
